@@ -59,17 +59,17 @@ public class IslandGenerator extends ChunkGenerator
                 final int realZ = z + ChunkZ * 16;
                 final double frequency = 0.5;
                 final double amplitude = 0.5;
-                double thickness = (islands.noise((double)realX, (double)realZ, frequency, amplitude) - this.threshold) / (1.0 - this.threshold) * this.scale;
+                double thickness = (islands.noise(realX, realZ, frequency, amplitude) - this.threshold) / (1.0 - this.threshold) * this.scale;
                 if (thickness > 0.0) {
                     double bottomThick = thickness / 8.0;
                     thickness = (Math.pow(ratio, thickness) - 1.0) / (ratio - 1.0);
-                    final double roughness = (roughMap.noise((double)realX, (double)realZ, frequency, amplitude) + 1.0) / 2.0 * 1.5;
+                    final double roughness = (roughMap.noise(realX, realZ, frequency, amplitude) + 1.0) / 2.0 * 1.5;
                     final double height = 128.0;
                     for (int y = (int)height; y < height + thickness * roughness; ++y) {
                         this.setBlock(x, y, z, chunk, Material.STONE);
                     }
                     bottomThick = (bottomThick + thickness / 2.0) / 2.0;
-                    double bottomRough = (bottum.noise((double)realX, (double)realZ, frequency, amplitude) - 1.0) / 2.0;
+                    double bottomRough = (bottum.noise(realX, realZ, frequency, amplitude) - 1.0) / 2.0;
                     bottomRough *= thickness;
                     for (int y2 = (int)height; y2 > height - bottomThick + bottomRough; --y2) {
                         this.setBlock(x, y2, z, chunk, Material.STONE);
@@ -111,6 +111,6 @@ public class IslandGenerator extends ChunkGenerator
         if (y < 128) {
             y = (int)(130.0 + thickness);
         }
-        return new Location(world, x, (double)y, z);
+        return new Location(world, x, y, z);
     }
 }

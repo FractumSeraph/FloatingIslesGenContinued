@@ -14,8 +14,8 @@ import org.bukkit.generator.BlockPopulator;
 
 public class TreePopulator extends BlockPopulator
 {
-    private Random random;
-    private boolean moreTrees;
+    private final Random random;
+    private final boolean moreTrees;
     
     public TreePopulator(final long seed, final boolean moreTrees) {
         this.random = new Random(seed);
@@ -23,12 +23,14 @@ public class TreePopulator extends BlockPopulator
     }
     
     public void populate(final World world, final Random r, final Chunk chunk) {
-        if (!chunk.getBlock(0, 0, 0).getBiome().equals((Object)Biome.FOREST) && !chunk.getBlock(0, 0, 0).getBiome().equals((Object)Biome.FOREST_HILLS) && !this.moreTrees && this.random.nextDouble() > 0.04) {
+        if (!chunk.getBlock(0, 0, 0).getBiome().equals(Biome.FOREST) &&
+                !chunk.getBlock(0, 0, 0).getBiome().equals((Object)Biome.BIRCH_FOREST_HILLS.name()) && //TODO Make this check for DARK_FOREST_HILLS too.
+                !this.moreTrees && this.random.nextDouble() > 0.04) {
             return;
         }
         final int x = this.random.nextInt(16) + chunk.getX() * 16;
         final int z = this.random.nextInt(16) + chunk.getZ() * 16;
-        final Location loc = new Location(world, (double)x, (double)world.getHighestBlockYAt(x, z), (double)z);
+        final Location loc = new Location(world, x, world.getHighestBlockYAt(x, z), z);
         if (loc.getY() <= 1.0) {
             return;
         }

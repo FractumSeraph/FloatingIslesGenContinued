@@ -26,15 +26,15 @@ public class FloatingIsles extends JavaPlugin implements Listener
     }
     
     public void onEnable() {
-        this.getServer().getPluginManager().registerEvents((Listener)this, (Plugin)this);
+        this.getServer().getPluginManager().registerEvents(this, this);
         this.saveDefaultConfig();
         final PluginDescriptionFile pdffile = this.getDescription();
-        this.logger.info(String.valueOf(pdffile.getName()) + " version " + pdffile.getVersion() + " is now enabled.");
+        this.logger.info(pdffile.getName() + " version " + pdffile.getVersion() + " is now enabled.");
     }
     
     public void onDisable() {
         final PluginDescriptionFile pdffile = this.getDescription();
-        this.logger.info(String.valueOf(pdffile.getName()) + " is now disabled");
+        this.logger.info(pdffile.getName() + " is now disabled");
     }
     
     public ChunkGenerator getDefaultWorldGenerator(final String worldName, final String GenId) {
@@ -44,14 +44,14 @@ public class FloatingIsles extends JavaPlugin implements Listener
             this.logger.info("[FloatingIsles] Scale for world \"" + worldName + "\" generation is invalid: It must be a between 16 and 256.");
             this.logger.info("[FloatingIsles] Setting scale to 64.");
             scale = 64.0;
-            this.getConfig().set("world-gen.scale", (Object)64.0);
+            this.getConfig().set("world-gen.scale", 64.0);
             this.saveConfig();
         }
         if (threshold < 0.0 || threshold > 1.0) {
             this.logger.info("[FloatingIsles] Threshold for world \"" + worldName + "\" generation is invalid: It must be a between 0.0 and 1.0");
             this.logger.info("[FloatingIsles] Setting threshold to 0.5");
             threshold = 0.5;
-            this.getConfig().set("world-gen.threshold", (Object)0.5);
+            this.getConfig().set("world-gen.threshold", 0.5);
             this.saveConfig();
         }
         long seed = Bukkit.getWorlds().get(0).getSeed();
@@ -60,11 +60,11 @@ public class FloatingIsles extends JavaPlugin implements Listener
         }
         else if (this.getConfig().isString("world-gen.seed")) {
             if (!this.getConfig().getString("world-gen.seed").equalsIgnoreCase("default")) {
-                this.getConfig().set("world-gen.seed", (Object)"default");
+                this.getConfig().set("world-gen.seed", "default");
             }
         }
         else {
-            this.getConfig().set("world-gen.seed", (Object)"default");
+            this.getConfig().set("world-gen.seed", "default");
         }
         this.logger.info("[FloatingIsles] Generating world \"" + worldName + "\" with a scale of " + scale + " a threshold of " + threshold + " and a seed of " + seed);
         return new IslandGenerator(scale, threshold, seed, this.getConfig().getBoolean("world-gen.more-trees"));
@@ -88,7 +88,7 @@ public class FloatingIsles extends JavaPlugin implements Listener
     @EventHandler
     public void onPluginLoad(final PluginEnableEvent event) {
         final Plugin plugin = event.getPlugin();
-        if (!plugin.getDescription().getLoad().equals((Object)PluginLoadOrder.POSTWORLD)) {
+        if (!plugin.getDescription().getLoad().equals(PluginLoadOrder.POSTWORLD)) {
             return;
         }
         this.loadWorld();
